@@ -2,7 +2,6 @@ with Ada.Containers.Ordered_Sets;
 with Ada.Containers.Vectors;
 
 package Association_Rules is
-   pragma Pure;
 
    -- Domain-specific strong types
    type Item_ID is new Positive;
