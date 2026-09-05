@@ -58,7 +58,7 @@ begin
    Put_Line ("TEST 1 - Database Preconditions (Empty DB handling)");
    declare
       Val : Support_Value;
-      pragma Unreferenced (Val);
+      pragma Warnings (Off, Val);
    begin
       Val := Support (Empty_DB, S1);
       Check ("1.1 Empty DB Support (Should not reach here)", False);
@@ -68,7 +68,7 @@ begin
    end;
    declare
       Val : Support_Value;
-      pragma Unreferenced (Val);
+      pragma Warnings (Off, Val);
    begin
       Val := Confidence (Empty_DB, R_1_to_2);
       Check ("1.2 Empty DB Confidence (Should not reach here)", False);
@@ -78,7 +78,7 @@ begin
    end;
    declare
       Val : Item_Set_List;
-      pragma Unreferenced (Val);
+      pragma Warnings (Off, Val);
    begin
       Val := Apriori (Empty_DB, 0.5);
       Check ("1.3 Empty DB Apriori (Should not reach here)", False);
@@ -100,7 +100,7 @@ begin
       S19 : Item_Set := S1;
       Empty_Set : Item_Set;
       Val : Support_Value;
-      pragma Unreferenced (Val);
+      pragma Warnings (Off, Val);
    begin
       S19.Insert(9);
       Check ("3.2 Support for {1, 9} is 0.0", Float_Equal (Float(Support(DB, S19)), 0.0));
@@ -191,9 +191,10 @@ begin
    Put_Line ("TEST 11 - Zero Support Exception Handling");
    declare
       R_Bad : constant Association_Rule := (Antecedent => S9, Consequent => S1);
-      Val : Metric_Value;
-      pragma Unreferenced (Val);
+      Val : Support_Value;
+      pragma Warnings (Off, Val);
    begin
+      Val := Confidence (DB, R_Bad);
       Check ("11.1 Confidence throws Zero_Support_Error", False);
    exception
       when Zero_Support_Error => Check ("11.1 Confidence throws Zero_Support_Error", True);
@@ -202,7 +203,7 @@ begin
    declare
       R_Bad : constant Association_Rule := (Antecedent => S9, Consequent => S1);
       Val : Metric_Value;
-      pragma Unreferenced (Val);
+      pragma Warnings (Off, Val);
    begin
       Val := Lift (DB, R_Bad);
       Check ("11.2 Lift throws Zero_Support_Error", False);
@@ -213,7 +214,6 @@ begin
    declare
       R_Bad : constant Association_Rule := (Antecedent => S1, Consequent => S9);
       Val : Metric_Value;
-      pragma Unreferenced (Val);
    begin
       Val := Conviction (DB, R_Bad);
       Check ("11.3 Conviction handles missing consequent safely (val=1.25)", Float_Equal(Float(Val), 1.25));
@@ -223,7 +223,7 @@ begin
    Put_Line ("TEST 12 - Perfect Confidence Exception Handling");
    declare
       Val : Metric_Value;
-      pragma Unreferenced (Val);
+      pragma Warnings (Off, Val);
    begin
       -- {4}->{1} has Conf = 1.0
       Val := Conviction (DB, R_4_to_1);
@@ -241,7 +241,7 @@ begin
       Empty_Set : Item_Set;
       R_Empty_Ant : constant Association_Rule := (Antecedent => Empty_Set, Consequent => S1);
       Val : Support_Value;
-      pragma Unreferenced (Val);
+      pragma Warnings (Off, Val);
    begin
       Val := Confidence (DB, R_Empty_Ant);
       Check ("13.1 Confidence throws Precondition for Empty Ant", False);
@@ -253,7 +253,7 @@ begin
       Empty_Set : Item_Set;
       R_Empty_Con : constant Association_Rule := (Antecedent => S1, Consequent => Empty_Set);
       Val : Metric_Value;
-      pragma Unreferenced (Val);
+      pragma Warnings (Off, Val);
    begin
       Val := Lift (DB, R_Empty_Con);
       Check ("13.2 Lift throws Precondition for Empty Con", False);
@@ -265,7 +265,7 @@ begin
       Empty_Set : Item_Set;
       R_Empty_Ant : constant Association_Rule := (Antecedent => Empty_Set, Consequent => S1);
       Val : Metric_Value;
-      pragma Unreferenced (Val);
+      pragma Warnings (Off, Val);
    begin
       Val := Conviction (DB, R_Empty_Ant);
       Check ("13.3 Conviction throws Precondition for Empty Ant", False);
